@@ -9,6 +9,9 @@
     "webpack-cli": "^4.9.2",
     "webpack-dev-server": "^4.8.1"
   },
+  "dependencies": {
+    "@johnbenz13/shared-library": "^1.0.0"
+  },
   "scripts": {
     "build": "webpack",
     "start": "webpack-dev-server --port 3002 --open"

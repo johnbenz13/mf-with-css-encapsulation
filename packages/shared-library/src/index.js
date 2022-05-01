@@ -1,6 +1,6 @@
-export default function component() {
+export const Button = function() {
     const btn = document.createElement('button');
-    btn.innerHTML = 'Click me and check the console!';
+    btn.innerHTML = 'Button from shared library';
 
     return btn;
 }

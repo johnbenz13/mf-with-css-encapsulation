@@ -1,6 +1,9 @@
+import { Button } from '@johnbenz13/shared-library';
+
 function component() {
     const element = document.createElement('div');
-    element.textContent = 'Hello webpack B';
+    element.textContent = 'Application B \n';
+    element.appendChild(Button());
 
     return element;
 }
