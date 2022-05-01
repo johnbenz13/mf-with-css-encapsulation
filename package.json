@@ -1,0 +1,9 @@
+{
+  "name": "mf-with-css-encapsulation",
+  "private": true,
+  "workspaces": {
+    "packages": [
+      "packages/*"
+    ]
+  }
+}
