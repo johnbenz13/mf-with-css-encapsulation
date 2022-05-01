@@ -8,6 +8,20 @@ module.exports = {
     path: path.resolve(__dirname, 'dist'),
   },
   mode: 'development',
+  module: {
+    rules: [
+      { test: /\.css$/, use: [
+        'style-loader', 
+        {
+          loader: "css-loader",
+          options: {
+            importLoaders: 1,
+            modules: true,
+          },
+        },
+      ]},
+    ],
+  },
   plugins: [
     new HtmlWebpackPlugin({
       title: 'Output Management',

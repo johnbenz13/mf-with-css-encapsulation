@@ -1,0 +1,17 @@
+.container {
+    display: block;
+    height: 100px;
+    width: 300px;
+    border: solid 1px #af4c96;
+}
+
+.myButton {
+    background-color: #af4c96; /* Pink */
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+}
