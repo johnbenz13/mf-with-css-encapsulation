@@ -15,3 +15,8 @@
     display: inline-block;
     font-size: 16px;
 }
+
+/* Simulate Theme with CSS hierarchy */
+.container .myButton {
+    background-color: #d7f41a;
+}
