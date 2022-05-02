@@ -33,7 +33,7 @@ module.exports = {
     new ModuleFederationPlugin({
       name: 'appB',
       exposes: {
-        'Container': './src/components/Container.js',
+        './Container': './src/components/Container.js',
       },
       shared: {
         '@johnbenz13/shared-library': {}

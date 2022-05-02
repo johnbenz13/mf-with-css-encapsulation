@@ -31,15 +31,14 @@ module.exports = {
     }),
     new ModuleFederationPlugin({
       name: 'appA',
-      // remotes: {
-      //   appB: "appB@localhost:3002/module-federation.js",
-      // },
+      remotes: {
+        appB: "appB@http://localhost:3002/remoteEntry.js",
+      },
       exposes: {
         'Container': './src/components/Container.js',
       },
       shared: {
         '@johnbenz13/shared-library': {},
-        
       },
       filename: 'remoteEntry.js',
     }),
