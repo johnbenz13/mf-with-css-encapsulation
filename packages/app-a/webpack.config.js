@@ -6,8 +6,8 @@ const { ModuleFederationPlugin } = require('webpack').container;
 module.exports = {
   entry: './src/index.js',
   output: {
-    filename: 'main.js',
     path: path.resolve(__dirname, 'dist'),
+    clean: true,
   },
   mode: 'development',
   module: {
@@ -27,15 +27,21 @@ module.exports = {
   plugins: [
     new HtmlWebpackPlugin({
       title: 'Output Management',
-      clean: true,
+      // clean: true,
     }),
     new ModuleFederationPlugin({
       name: 'appA',
-      exposes: {},
-      shared: {
-        '@johnbenz13/shared-library': { eager: true}
+      // remotes: {
+      //   appB: "appB@localhost:3002/module-federation.js",
+      // },
+      exposes: {
+        'Container': './src/components/Container.js',
       },
-      filename: 'module-federation.js',
+      shared: {
+        '@johnbenz13/shared-library': {},
+        
+      },
+      filename: 'remoteEntry.js',
     }),
   ],
 };

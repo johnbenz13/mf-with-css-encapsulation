@@ -8,6 +8,7 @@ module.exports = {
   output: {
     filename: 'main.js',
     path: path.resolve(__dirname, 'dist'),
+    clean: true,
   },
   mode: 'development',
   module: {
@@ -31,11 +32,13 @@ module.exports = {
     }),
     new ModuleFederationPlugin({
       name: 'appB',
-      exposes: {},
-      shared: {
-        '@johnbenz13/shared-library': { eager: true}
+      exposes: {
+        'Container': './src/components/Container.js',
       },
-      filename: 'module-federation.js',
+      shared: {
+        '@johnbenz13/shared-library': {}
+      },
+      filename: 'remoteEntry.js',
     }),
   ],
 };
