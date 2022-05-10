@@ -1,0 +1,18 @@
+@st-import [colored-button] from "@johnbenz13/shared-library/src/components/Button.st.css";
+
+.root {
+    display: block;
+    height: 100px;
+    width: 300px;
+    border: solid 1px #4CAF50;
+}
+
+/* .john {
+    -st-extends: colored-button;
+} */
+
+
+.root .colored-button {
+        background-color: #e90eb2;
+}
+
