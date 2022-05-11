@@ -1,31 +1,40 @@
-const path = require('path');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-const { ModuleFederationPlugin } = require('webpack').container;
-
+const path = require("path");
+const HtmlWebpackPlugin = require("html-webpack-plugin");
+const { ModuleFederationPlugin } = require("webpack").container;
+const { StylableWebpackPlugin } = require("@stylable/webpack-plugin");
+const { resolveNamespaceFactory } = require("@stylable/node");
+const { name } = require("./package.json");
 
 module.exports = {
-  entry: './src/index.js',
+  entry: "./src/index.js",
   output: {
-    filename: 'main.js',
-    path: path.resolve(__dirname, 'dist'),
+    filename: "main.js",
+    path: path.resolve(__dirname, "dist"),
     clean: true,
   },
-  mode: 'development',
-  module: {
+  mode: "development",
   plugins: [
     new HtmlWebpackPlugin({
-      title: 'Output Management',
+      title: "Output Management",
       clean: true,
     }),
+    new StylableWebpackPlugin({
+      stylableConfig(base) {
+        return {
+          ...base,
+          resolveNamespace: resolveNamespaceFactory(name),
+        };
+      },
+    }),
     new ModuleFederationPlugin({
-      name: 'appB',
+      name: "appB",
       exposes: {
-        './Container': './src/components/Container.js',
+        "./Container": "./src/components/Container.js",
       },
       shared: {
-        '@johnbenz13/shared-library': {}
+        "@johnbenz13/shared-library": {},
       },
-      filename: 'remoteEntry.js',
+      filename: "remoteEntry.js",
     }),
   ],
 };
