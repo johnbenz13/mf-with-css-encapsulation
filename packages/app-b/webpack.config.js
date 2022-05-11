@@ -19,6 +19,7 @@ module.exports = {
       clean: true,
     }),
     new StylableWebpackPlugin({
+      runtimeStylesheetId: "namespace",
       stylableConfig(base) {
         return {
           ...base,

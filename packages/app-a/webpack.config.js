@@ -52,6 +52,7 @@ module.exports = {
       filename: "remoteEntry.js",
     }),
     new StylableWebpackPlugin({
+      runtimeStylesheetId: 'namespace',
       stylableConfig(base) {
         return {
           ...base,
