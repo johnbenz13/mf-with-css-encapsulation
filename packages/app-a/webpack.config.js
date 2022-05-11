@@ -12,27 +12,6 @@ module.exports = {
     clean: true,
   },
   mode: "development",
-  module: {
-    rules: [
-      {
-        test: /\.css$/,
-        exclude: /\.st.css$/,
-        use: [
-          "style-loader",
-          {
-            loader: "css-loader",
-            options: {
-              importLoaders: 1,
-              modules: {
-                localIdentName: "[hash:base64:5]",
-                localIdentHashSalt: "@johnbenz13/app-a",
-              },
-            },
-          },
-        ],
-      },
-    ],
-  },
   plugins: [
     new HtmlWebpackPlugin({
       title: "Output Management",
