@@ -2,7 +2,8 @@ const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const { ModuleFederationPlugin } = require("webpack").container;
 const { StylableWebpackPlugin } = require("@stylable/webpack-plugin");
-const { resolveNamespaceFactory } = require("@stylable/node");
+// const { resolveNamespaceFactory } = require("@stylable/node");
+const resolveNamespaceFactory = require("../../resolveNamespaceFactory");
 const { name } = require("./package.json");
 
 module.exports = {
