@@ -2,6 +2,7 @@ const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const { ModuleFederationPlugin } = require("webpack").container;
 const { StylableWebpackPlugin } = require("@stylable/webpack-plugin");
+const WebpackDummyPlugin = require('./WebpackDummyPlugin');
 // const { resolveNamespaceFactory } = require("@stylable/node");
 const resolveNamespaceFactory = require("../../resolveNamespaceFactory");
 const { name } = require("./package.json");
@@ -15,6 +16,7 @@ module.exports = {
   },
   mode: "development",
   plugins: [
+    new WebpackDummyPlugin(),
     new HtmlWebpackPlugin({
       title: "Output Management",
       // clean: true,
