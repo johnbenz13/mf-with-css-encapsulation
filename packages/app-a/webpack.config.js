@@ -31,6 +31,7 @@ module.exports = {
       },
       shared: {
         "@johnbenz13/shared-library": {},
+        "moment": {},
       },
       filename: "remoteEntry.js",
     }),
