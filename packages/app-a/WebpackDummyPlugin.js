@@ -6,8 +6,9 @@ const filteredLibraries = [
 
 module.exports = class WebpackDummyPlugin {
     constructor() {
-        this.totalWsr = 0;
-        this.requestedWsr = [];
+        // this.totalWsr = 0;
+        // this.requestedWsr = [];
+        this.usedWsrComponents = [];
     }
     // Define `apply` as its prototype method which is supplied with compiler as its argument
     apply(compiler) {
@@ -34,7 +35,7 @@ module.exports = class WebpackDummyPlugin {
                 for (const module of modules) {
                     for (const dep of module.dependencies) {
                         try {
-                            if (module.userRequest && dep.userRequest && filteredLibraries.some(lib => dep.userRequest.includes(lib))) { 
+                            if (module.userRequest && dep.userRequest && filteredLibraries.some(lib => dep.userRequest === lib)) { 
                                 // Inspired by https://github.com/webpack/webpack/blob/main/lib/FlagDependencyUsagePlugin.js#L213
                                 // And https://developpaper.com/webpack-principle-series-9-tree-shaking-implementation-principle/
                                 const depRef = compilation.getDependencyReferencedExports(dep);
