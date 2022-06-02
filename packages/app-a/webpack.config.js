@@ -30,8 +30,10 @@ module.exports = {
         Container: "./src/components/Container.js",
       },
       shared: {
-        "@johnbenz13/shared-library": {},
-        "moment": {},
+        // "@johnbenz13/shared-library": {},
+        // "NotImported": {
+        //   import: '../shared-library/src/components/NotImported.js',
+        // },
       },
       filename: "remoteEntry.js",
     }),

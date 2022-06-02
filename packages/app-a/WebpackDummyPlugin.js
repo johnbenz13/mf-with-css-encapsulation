@@ -3,57 +3,57 @@ const filteredLibraries = [
     'wix-style-react', 
     '@johnbenz13/shared-library'
 ];
+const ProvideSharedDependency = require('webpack/lib/sharing/ProvideSharedDependency');
 
 module.exports = class WebpackDummyPlugin {
     constructor() {
-        // this.totalWsr = 0;
-        // this.requestedWsr = [];
-        this.usedWsrComponents = [];
+        this.wsrImportedModules = [];
     }
     // Define `apply` as its prototype method which is supplied with compiler as its argument
     apply(compiler) {
-        // Specify the event hook to attach to
-        compiler.hooks.compilation.tap('WebpackDummyPlugin', 
-        (compilation, { normalModuleFactory }) => {
-            // normalModuleFactory.hooks.module.tap('WebpackDummyPlugin',
-            // (module, { resource, resourceResolveData }, resolveData) => {
-            //     const { request } = resolveData;
-
-            //     if (request.includes('wix-style-react')) {
-            //         console.log('WSR MAN');
-            //         this.totalWsr++;
-            //         this.requestedWsr.push({request});
-            //     }
-
-            //     return module; // Why do we need to return?
-            // });
-
-            compilation.hooks.optimizeDependencies.tap({
-                name: "WebpackDummyPlugin",
-                stage: STAGE_DEFAULT
-            }, modules => {
-                for (const module of modules) {
-                    for (const dep of module.dependencies) {
-                        try {
-                            if (module.userRequest && dep.userRequest && filteredLibraries.some(lib => dep.userRequest === lib)) { 
-                                // Inspired by https://github.com/webpack/webpack/blob/main/lib/FlagDependencyUsagePlugin.js#L213
-                                // And https://developpaper.com/webpack-principle-series-9-tree-shaking-implementation-principle/
-                                const depRef = compilation.getDependencyReferencedExports(dep);
+        compiler.hooks.finishMake.tapPromise("WebpackDummyPlugin", compilation => {
+            const wsrImportedModules = [];
+            const { modules } = compilation;
+            for (const module of modules) {
+                for (const dep of module.dependencies) {
+                    try {
+                        if (module.userRequest && dep.userRequest && filteredLibraries.some(lib => dep.userRequest === lib)) { 
+                            // Inspired by https://github.com/webpack/webpack/blob/main/lib/FlagDependencyUsagePlugin.js#L213
+                            const depRefs = compilation.getDependencyReferencedExports(dep) || [];
                             
-                                console.log(`${module.userRequest} -> ${dep.userRequest}`, depRef);
-                            }
-                            
-                        } catch(e) {
-                            console.log(`Not refExp for ${module.userRequest} -> ${dep.userRequest}`);
+                            depRefs.forEach(depRef => {
+                                depRef.forEach(ref => {
+                                    wsrImportedModules.push(ref);
+                                });
+                            });
                         }
+                    } catch(e) {
+                        console.log(`Not refExp for ${module.userRequest} -> ${dep.userRequest}`);
                     }
                 }
-            })
-        });
+            }
 
-        compiler.hooks.finishMake.tapPromise("WebpackDummyPlugin", compilation => {
-            console.log('The End', this.totalWsr, this.requestedWsr);
-            return Promise.resolve();
+
+            // Inspired by https://github.com/webpack/webpack/blob/main/lib/sharing/ProvideSharedPlugin.js#L190
+            return Promise.all(wsrImportedModules.map(depRef => new Promise((resolve, reject) => {
+                compilation.addInclude(
+                    compiler.context,
+                    new ProvideSharedDependency(
+                        'default',
+                        depRef,
+                        false,
+                        `/Users/jonathanbe/Code/Wix/Playground/mf-with-css-encapsulation/packages/shared-library/src/components/${depRef}.js`,
+                        true
+                    ),
+                    {
+                        name: undefined
+                    },
+                    err => {
+                        if (err) return reject(err);
+                        resolve();
+                    }
+                );
+            }))).then(() => {});
         });
     }
 }
