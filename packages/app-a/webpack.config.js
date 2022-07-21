@@ -2,6 +2,7 @@ const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const { ModuleFederationPlugin } = require("webpack").container;
 const { StylableWebpackPlugin } = require("@stylable/webpack-plugin");
+const WebpackDummyPlugin = require('./WebpackDummyPlugin');
 // const { resolveNamespaceFactory } = require("@stylable/node");
 const resolveNamespaceFactory = require("../../resolveNamespaceFactory");
 const { name } = require("./package.json");
@@ -15,6 +16,7 @@ module.exports = {
   },
   mode: "development",
   plugins: [
+    new WebpackDummyPlugin(),
     new HtmlWebpackPlugin({
       title: "Output Management",
       // clean: true,
@@ -28,7 +30,10 @@ module.exports = {
         Container: "./src/components/Container.js",
       },
       shared: {
-        "@johnbenz13/shared-library": {},
+        // "@johnbenz13/shared-library": {},
+        // "NotImported": {
+        //   import: '../shared-library/src/components/NotImported.js',
+        // },
       },
       filename: "remoteEntry.js",
     }),
